@@ -501,6 +501,7 @@ header ul li:before {
   font-size: 18px;
   color: #c78030;
   cursor: pointer;
+  
 }
 .content .more:hover {
   box-shadow: 0 0 10px #c78030;

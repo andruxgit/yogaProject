@@ -1,6 +1,6 @@
 window.addEventListener('DOMContentLoaded', function () {
   'use strict';
-  
+
   let tab = document.querySelectorAll('.info-header-tab'),
     info = document.querySelector('.info-header'),
     tabContent = document.querySelectorAll('.info-tabcontent');
@@ -32,14 +32,16 @@ window.addEventListener('DOMContentLoaded', function () {
           break;
         }
       }
+
     }
 
   });
   //таймер обратного отсчета 
-  let deadLine = '2018/11/30';
+
+  let deadLine = '2018-12-01';
 
   // console.log(Date.parse(new Date()))
-//Получение обьекта с небходимыми параметрами времени определяющими временной отрезок до события
+  //Получение обьекта с небходимыми параметрами времени определяющими временной отрезок до события
   function getTimeRemaning(endTime) {
     let t = Date.parse(endTime) - Date.parse(new Date()),
       seconds = Math.round((t / 1000) % 60),
@@ -52,8 +54,8 @@ window.addEventListener('DOMContentLoaded', function () {
       'seconds': seconds
     };
   }
-// тело таймера (отображение на странице и изменение каждую секунду сколко времени до события)
-//id - контейнер таймера и endTime - время события
+  // тело таймера (отображение на странице и изменение каждую секунду сколко времени до события)
+  //id - контейнер таймера и endTime - время события
   function setClock(id, endTime) {
     let timer = document.getElementById(id),
       hours = timer.querySelector('.hours'),
@@ -63,20 +65,53 @@ window.addEventListener('DOMContentLoaded', function () {
 
     function updateClock() {
       let t = getTimeRemaning(endTime);
-    if(t.total > 0){ 
-      hours.textContent = (t.hours < 10) ? '0' + t.hours : t.hours;
-      minutes.textContent = (t.minutes < 10) ? '0' + t.minutes : t.minutes;
-      seconds.textContent = (t.seconds < 10) ? '0' + t.seconds : t.seconds;
-      if (t.total <= 0) {
-        clearInterval(timeInterval);
+      if (t.total > 0) {
+        hours.textContent = (t.hours < 10) ? '0' + t.hours : t.hours;
+        minutes.textContent = (t.minutes < 10) ? '0' + t.minutes : t.minutes;
+        seconds.textContent = (t.seconds < 10) ? '0' + t.seconds : t.seconds;
+        if (t.total <= 0) {
+          clearInterval(timeInterval);
+        }
+      } else {
+        hours.textContent = '00';
+        minutes.textContent = '00';
+        seconds.textContent = '00';
       }
-    } else {
-      hours.textContent = '00';
-      minutes.textContent = '00';
-      seconds.textContent = '00';
-    }
     }
   }
 
   setClock('timer', deadLine);
+  //модальное окно
+
+  let more = document.querySelector('.more'),
+    overlay = document.querySelector('.overlay'),
+    closeMod = document.querySelector('.popup-close'),
+    know = document.querySelectorAll('.description-btn');
+  // infoContent = document.querySelector('.info');
+
+
+  more.addEventListener('click', function () {
+    overlay.style.display = 'block';
+    this.classList.add('more-splash');
+    document.body.style.overflow = 'hidden';
+  });
+  closeMod.addEventListener('click', function () {
+    overlay.style.display = '';
+    more.classList.remove('more-splash');
+    document.body.style.overflow = '';
+  });
+
+
+  //Привязка вызова мод окна к кнопкам в табах
+  know.forEach(function (i) {
+    i.addEventListener('click', function () {
+      overlay.style.display = 'block';
+      this.classList.add('more-splash');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+
+
+
 });
